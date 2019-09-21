@@ -105,3 +105,6 @@ venv.bak/
 
 # dont push private connection details
 *_connection_details.txt
+
+# no swp files
+*.swp
