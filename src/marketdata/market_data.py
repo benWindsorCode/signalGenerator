@@ -6,14 +6,18 @@ f = open('IEX_connection_details.txt', 'r')
 API_token = f.read()[:-1]
 f.close()
 
-@app.route('/')
-def index():
-    return 'Server Works!'
-  
-@app.route('/stock/<ticker>')
-def show_stock_price(ticker: str):
+def _get_stock_data_json(ticker):
     query_string = 'https://cloud.iexapis.com/stable/stock/{}/quote?token={}'.format(ticker.lower(), API_token)
-    print(query_string)
     result = requests.get(url = query_string) 
+    return result.json()
+
+@app.route('/stock/<ticker>')
+def show_stock(ticker: str):
     print("Fetching data for {}".format(ticker))
-    return result.json() 
+    return _get_stock_data_json(ticker) 
+
+@app.route('/stock/<ticker>/<property>')
+def show_stock_property(ticker: str, property: str):
+    data = _get_stock_data_json(ticker)
+    return str(data[property])
+
