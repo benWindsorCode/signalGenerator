@@ -1,7 +1,7 @@
 from enum import Enum
 
 
-class Expression_type(Enum):
+class EXPRESSION_TYPE(Enum):
     GT = 0 # greater than
     GEQ = 1    # greater than or equal to
     LT = 2    # less than
