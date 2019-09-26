@@ -14,6 +14,23 @@ class Condition:
         f.close()
         return data
 
+    def evaluate(self, data):
+        evaluated_expressions = []
+        for x in self.expressions:
+            if not x:
+                evaluated_expressions += x
+            else:
+                evaluated_expressions += str(x.evaluate(data))
+
+        total_expression = evaluated_expressions[0]  # todo: can we always assume it starts with a bool val, what if starts with '('?
+        for i in range(1, len(evaluated_expressions)):
+            addition = evaluated_expressions[i]
+            if i-1 < len(self.separators):
+                addition += self.separators[i-1]
+            print(addition)
+            total_expression += addition
+
+
     # Given text of expressions, turns into expressions class objects, leaving empty placeholders as is
     def extract_expressions(self, expressions_text):
         expressions = []
@@ -43,7 +60,7 @@ class Condition:
             
     # Returns sorted list of tuples of the form ( position of separator, separator )
     def find_all_separators(self):
-        separators = ['AND', 'OR', '(', ')']
+        separators = ['and', 'or', '(', ')']
         positions = []
         for separator in separators:
             pairs = [ (x, separator) for x in self.find_occurances(separator, self.data)]
