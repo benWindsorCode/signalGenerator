@@ -1,4 +1,6 @@
 from expression import Expression
+import re
+
 
 class Condition:
     def __init__(self, file_path: str):
@@ -18,15 +20,16 @@ class Condition:
         evaluated_expressions = []
         for x in self.expressions:
             if not x:
-                evaluated_expressions += x
+                evaluated_expressions.append(x)
             else:
-                evaluated_expressions += str(x.evaluate(data))
+                evaluated_expressions.append(str(x.evaluate(data)))
+        print(evaluated_expressions)
 
         total_expression = evaluated_expressions[0]  # todo: can we always assume it starts with a bool val, what if starts with '('?
         for i in range(1, len(evaluated_expressions)):
             addition = evaluated_expressions[i]
             if i-1 < len(self.separators):
-                addition += self.separators[i-1]
+                addition += " {} ".format(self.separators[i-1][1])
             print(addition)
             total_expression += addition
 
@@ -60,6 +63,9 @@ class Condition:
             
     # Returns sorted list of tuples of the form ( position of separator, separator )
     def find_all_separators(self):
+        # todo: attempt with regex, keeping separators next to eachother as joined
+        regex = r"(\(|\))?\s?(and|or|\(|\))\s?(\(|\))?"
+        matches = re.finditer(regex, self.data, re.MULTILINE)
         separators = ['and', 'or', '(', ')']
         positions = []
         for separator in separators:
