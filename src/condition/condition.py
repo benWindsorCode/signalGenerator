@@ -3,13 +3,14 @@ import re
 
 
 class Condition:
-    def __init__(self, file_path: str):
-        self.file_path = file_path
-        self.data = self.load_condition(file_path)
+    def __init__(self, condition_text: str):
+        self.data = condition_text
         self.separators = self.find_all_separators()
+        print(self.separators)
         self.expressions = self.extract_expressions(self.separators, self.data)
+        print(self.expressions)
 
-    def load_condition(self, file_path: str) -> str:
+    def load_condition_from_file(self, file_path: str) -> str:
         f = open(file_path, 'r')
         data = f.read()[:-1]
         f.close()
@@ -19,6 +20,8 @@ class Condition:
         evaluated_expressions = [ str(expr.evaluate(data)) for expr in self.expressions ]
         separator_tokens = [ match.group() for match in self.separators ]
         print(evaluated_expressions)
+        if len(separator_tokens) == 0:
+            return eval(evaluated_expressions[0])
         combined_list = [None]*(len(evaluated_expressions) + len(separator_tokens))
         if self.separators[0].start() == 0:
             combined_list[::2] = separator_tokens
@@ -33,6 +36,8 @@ class Condition:
 
     # Extract the three word expressions between each separator and parse into expression object
     def extract_expressions(self, separators, text: str):
+        if len(self.separators) == 0:
+            return [Expression(self.data)]
         expressions = []
         current_pos = 0
         for match in self.separators:
