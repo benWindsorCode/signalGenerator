@@ -7,9 +7,10 @@ API_token = f.read()[:-1]
 f.close()
 
 def _get_crypto_data_json(crypto_asset, fiat_currency):
-    query_string = 'https://min-api.cryptocompare.com/data/price?fsym={}&tsyms={}&api_key={}'.format(crypto_asset, fiat_currency, API_token)
+    query_string = 'https://min-api.cryptocompare.com/data/pricemultifull?fsyms=BTC&tsyms=GBP&api_key={}'.format(crypto_asset, fiat_currency, API_token)
+    # query_string = 'https://min-api.cryptocompare.com/data/price?fsym={}&tsyms={}&api_key={}'.format(crypto_asset, fiat_currency, API_token)
     result = requests.get(url = query_string) 
-    return result.json()
+    return result.json()['RAW'][crypto_asset][fiat_currency]
 
 @app.route('/crypto/<symbol>')
 def show_stock(symbol: str):

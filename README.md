@@ -16,6 +16,11 @@ export FLASK\_ENV=development
 export FLASK\_APP=crypto\_data\_service.py
 flask run --port 5001
 
+Run the following commands from inside the marketdata folder:
+export FLASK\_ENV=development
+export FLASK\_APP=market\_data\_proxy.py
+flask run --port 5002
+
 Navigate to the notification service folder and run:
 export FLASK\_ENV=development
 export FLASK\_APP=notification\_service.py
