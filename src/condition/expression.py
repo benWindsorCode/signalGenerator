@@ -26,7 +26,7 @@ class Expression:
         return property_name, expression_type, comparison_value
 
     def evaluate(self, data):
-        val = data[self.property_name]
+        val = float(data[self.property_name])
         if self.expression_type == EXPRESSION_TYPE.GT:
             return val > self.comparison_value
         elif self.expression_type == EXPRESSION_TYPE.LT:

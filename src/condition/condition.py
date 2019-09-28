@@ -7,8 +7,7 @@ class Condition:
         self.file_path = file_path
         self.data = self.load_condition(file_path)
         self.separators = self.find_all_separators()
-        self.expressions_text = self.extract_expressions_text(self.separators, self.data)
-        self.expressions = self.extract_expressions(self.expressions_text)
+        self.expressions = self.extract_expressions(self.separators, self.data)
 
     def load_condition(self, file_path: str) -> str:
         f = open(file_path, 'r')
@@ -17,63 +16,45 @@ class Condition:
         return data
 
     def evaluate(self, data):
-        evaluated_expressions = []
-        for x in self.expressions:
-            if not x:
-                evaluated_expressions.append(x)
-            else:
-                evaluated_expressions.append(str(x.evaluate(data)))
+        evaluated_expressions = [ str(expr.evaluate(data)) for expr in self.expressions ]
+        separator_tokens = [ match.group() for match in self.separators ]
         print(evaluated_expressions)
+        combined_list = [None]*(len(evaluated_expressions) + len(separator_tokens))
+        if self.separators[0].start() == 0:
+            combined_list[::2] = separator_tokens
+            combined_list[1::2] = evaluated_expressions
+        else:
+            combined_list[::2] = evaluated_expressions
+            combined_list[1::2] = separator_tokens
+        combined_string = ''.join(combined_list)
 
-        total_expression = evaluated_expressions[0]  # todo: can we always assume it starts with a bool val, what if starts with '('?
-        for i in range(1, len(evaluated_expressions)):
-            addition = evaluated_expressions[i]
-            if i-1 < len(self.separators):
-                addition += " {} ".format(self.separators[i-1][1])
-            print(addition)
-            total_expression += addition
-
-
-    # Given text of expressions, turns into expressions class objects, leaving empty placeholders as is
-    def extract_expressions(self, expressions_text):
-        expressions = []
-        for text in expressions_text:
-            if not text:
-                expressions.append('')
-            else:
-                expressions.append(Expression(text))
-        return expressions
+        # todo: ensure combined_string safe to perform eval on or use some kind of library here to eval
+        return eval(combined_string)
 
     # Extract the three word expressions between each separator and parse into expression object
-    # This will include empty '' strings as placeholders between separators such as '... OR ( ...'
-    def extract_expressions_text(self, separators, text: str):
-        first_pos = separators[0][0]
-        expressions = [ self.data[0: first_pos-1]]
-        for i, pair in enumerate(separators):
-            if i == len(separators)-1:
-                break
+    def extract_expressions(self, separators, text: str):
+        expressions = []
+        current_pos = 0
+        for match in self.separators:
+            expression = self.data[current_pos : match.start()].strip()
+            current_pos = match.end()
+
+            # Filter out emptry strings, such as if the text starts with a separator
+            if expression:
+                expressions.append(Expression(expression))
             
-            current_pos = pair[0]
-            current_separator = pair[1]
-            next_pos = separators[i+1][0]
-            text = self.data[current_pos + len(current_separator) : next_pos-1].strip()
-            expressions.append(text)
         return expressions
         
             
-    # Returns sorted list of tuples of the form ( position of separator, separator )
+    # Returns list of match objects
     def find_all_separators(self):
-        # todo: attempt with regex, keeping separators next to eachother as joined
-        regex = r"(\(|\))?\s?(and|or|\(|\))\s?(\(|\))?"
+        # Regex to find all occurances of 'and', 'or', '(', ')', grouping if adjacent such as 'and (', with spaces before and after 
+        regex = r"\s?(\(|\))?\s?(and|or|\(|\))\s?(\(|\))?\s?"
         matches = re.finditer(regex, self.data, re.MULTILINE)
-        separators = ['and', 'or', '(', ')']
-        positions = []
-        for separator in separators:
-            pairs = [ (x, separator) for x in self.find_occurances(separator, self.data)]
-            positions.extend(pairs)
-        return sorted(positions, key = lambda x: x[0])
+        return list(matches)
 
-    def find_occurances(self, word: str, text):
+    # return list of positions of first letter of word occurances found in text passed in
+    def _find_occurances(self, word: str, text):
         occurances = []
         continue_search = True
         removed = 0
