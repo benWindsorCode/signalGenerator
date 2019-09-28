@@ -17,7 +17,9 @@ def _parse_currency(symbol):
         result = requests.get(url = query_string) 
         return result.json()
     else:
-        raise Exception("{} not supported currency pair".format(symbol))
+        query_string = 'http://127.0.0.1:5002/ccy/{}-{}'.format(base, secondary) 
+        result = requests.get(url = query_string) 
+        return result.json()
 
 @app.route('/marketdata/<symbol>')
 def show_stock(symbol: str):
