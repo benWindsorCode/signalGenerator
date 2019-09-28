@@ -2,6 +2,7 @@
 A custom signal generation program.
 # To Run
 Place your IEX publishable API key in a file called IEX\_connection\_details.txt in the src/marketdata folder.
+Place your test AWS SNS API key in a file caled test\_topic\_details.txt in the src/notification folder.
 
 Run the following commands from inside the marketdata folder:
 
