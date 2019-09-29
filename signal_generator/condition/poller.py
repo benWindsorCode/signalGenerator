@@ -75,12 +75,13 @@ def run():
     mycursor = mydb.cursor()
     
     # todo: use a while True here instead
-    for i in range(3):
+    for i in range(2):
         mycursor.execute("SELECT * FROM sig_gen.condition")
         results = mycursor.fetchall()
         condition_data = convert_condition_to_dict(results)
         detect_change(condition_data, mycursor)
-        time.sleep(3)
+        time.sleep(5)
+        print("-------------------------------------------------------------\n\n")
 
     mydb.disconnect()
 
