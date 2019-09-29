@@ -47,6 +47,10 @@ class Condition:
             # Filter out emptry strings, such as if the text starts with a separator
             if expression:
                 expressions.append(Expression(expression))
+
+        # check if one more expression left after final separator
+        if current_pos < len(self.data):
+            expressions.append(Expression(self.data[current_pos: len(self.data)-1]))
             
         return expressions
         
