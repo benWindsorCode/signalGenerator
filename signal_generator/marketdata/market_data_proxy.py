@@ -9,7 +9,7 @@ def _parse_stock(ticker):
     return result.json()
 
 def _parse_currency(symbol):
-    cryptos = ['BTC', 'ETH', 'LTC', 'BCH', 'ETC']
+    cryptos = { 'BTC', 'ETH', 'LTC', 'BCH', 'ETC' }
     base = symbol.split('-')[0]
     secondary = symbol.split('-')[1]
     if base in cryptos:
