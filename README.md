@@ -5,8 +5,7 @@ Place your mysql database connection details in a file called database\_connecti
 Place your test AWS SNS API key in a file caled test\_topic\_details.txt in the src/notification folder.
 Place your IEX and Cryptocompare API keys in a file called service\_connection\_details.yaml in the config folder
 
-Run the following commands from inside the stock\_data folder:
-
+Run the following commands from inside the stock\_data folder (note the mock endpoint you can also run here):
 export FLASK\_ENV=development
 export FLASK\_APP=stock\_data\_service.py
 flask run --port 5000
@@ -16,12 +15,23 @@ export FLASK\_ENV=development
 export FLASK\_APP=crypto\_data\_service.py
 flask run --port 5001
 
+Run the following commands from inside the fx\_data folder:
+export FLASK\_ENV=development
+export FLASK\_APP=fx\_data\_service.py
+flask run --port 5002
+
 Run the following commands from inside the marketdata folder:
 export FLASK\_ENV=development
 export FLASK\_APP=market\_data\_proxy.py
-flask run --port 5002
+flask run --port 5010
 
-Navigate to the notification service folder and run:
+Run the following commands from the notification service folder and run:
 export FLASK\_ENV=development
 export FLASK\_APP=notification\_service.py
-flask run --port 5002
+flask run --port 5003
+
+Run the following commands from the user service folder and run:
+export FLASK\_ENV=development
+export FLASK\_APP=user\_service.py
+flask run --port 6000
+
