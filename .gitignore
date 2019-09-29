@@ -110,3 +110,6 @@ venv.bak/
 
 # no swp files
 *.swp
+
+# no vscode files
+.vscode/
