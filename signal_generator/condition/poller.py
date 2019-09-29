@@ -61,8 +61,8 @@ def fetch_user(iduser, mycursor):
     return convert_user_to_dict(result)
 
 def run():
-    with open("database_connection_details.yaml", 'r') as yaml_file:
-        cfg = yaml.load(yaml_file)
+    with open("../config/database_connection_details.yaml", 'r') as yaml_file:
+        cfg = yaml.load(yaml_file, Loader=yaml.FullLoader)
         
     mydb = mysql.connector.connect(
         host=cfg['mysql']['host'],

@@ -1,10 +1,9 @@
 # Signal Generator
 A custom signal generation program.
 # To Run
-Place your mysql database connection details in a file called database\_connection\_details.yaml in the condition folder
-Place your IEX publishable API key in a file called IEX\_connection\_details.txt in the src/marketdata/stock\_data folder.
-Place your cryptocompare API key in a file called \cryptocompare\_connection\_details.txt in the src/marketdata/crypto\_data folder
+Place your mysql database connection details in a file called database\_connection\_details.yaml in the config folder
 Place your test AWS SNS API key in a file caled test\_topic\_details.txt in the src/notification folder.
+Place your IEX and Cryptocompare API keys in a file called service\_connection\_details.yaml in the config folder
 
 Run the following commands from inside the stock\_data folder:
 

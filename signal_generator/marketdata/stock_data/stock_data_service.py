@@ -1,10 +1,12 @@
 from flask import Flask
 import requests
+import yaml
 
 app = Flask(__name__)
-f = open('IEX_connection_details.txt', 'r')
-API_token = f.read()[:-1]
-f.close()
+with open('../../config/service_connection_details.yaml', 'r') as yaml_file:
+    cfg = yaml.load(yaml_file, Loader=yaml.FullLoader)
+
+API_token = cfg['IEX']['API_key']
 
 def _get_stock_data_json(ticker):
     query_string = 'https://cloud.iexapis.com/stable/stock/{}/quote?token={}'.format(ticker.lower(), API_token)
