@@ -1,24 +1,24 @@
 <h2>Condition Creator</h2>
 <div>
-<form>
+<form (ngSubmit)="onSubmit()" #conditionForm="ngForm">
     <div class="form-group">
         <label for="user_id">User ID</label>
-        <input type="text" class="form-control" id="user_id" required>
+        <input type="text" class="form-control" id="user_id" required [(ngModel)]="model.user_id" name="user_id">
     </div>
     <div class="form-group">
         <label for="condition_text">Condition</label>
-        <input type="text" class="form-control" id="condition_text" required>
+        <input type="text" class="form-control" id="condition_text" required [(ngModel)]="model.condition_text" name="condition_text">
     </div>
     <div class="form-group">
         <label for="notification_method">Notification Method</label>
-        <select class="form-control" id="notification_method" required>
+        <select class="form-control" id="notification_method" required [(ngModel)]="model.notification_method" name="notification_method">
             <option *ngFor="let method of notification_methods" [value]="method">{{method}}</option>
         </select>
     </div>
     <div class="form-group">
         <label for="symbol">Symbol</label>
-        <input type="text" class="form-control" id="symbol" required>
+        <input type="text" class="form-control" id="symbol" required [(ngModel)]="model.symbol" name="symbol">
     </div>
-    <button type="submit" class="btn btn-success">Submit</button>
+    <button type="button" class="btn btn-default" (click)="newCondition(); conditionForm.reset()">Create</button>
 </form>
 </div>

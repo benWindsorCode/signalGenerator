@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Condition } from '../condition';
+import { HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-condition-creator',
@@ -8,9 +11,38 @@ import { Component, OnInit } from '@angular/core';
 export class ConditionCreatorComponent implements OnInit {
     notification_methods = ['SMS', 'email', 'SMS+email']
 
-  constructor() { }
+    httpOptions = {
+        headers: new HttpHeaders({
+            'Content-Type':  'application/json'
+        })
+    };
 
-  ngOnInit() {
-  }
+    model = new Condition();
+    submitted = false;
+    conditionUrl = "http://127.0.0.1:6001/condition/add";
+
+    constructor(private http: HttpClient) { }
+
+    ngOnInit() {
+    }
+
+    onSubmit() {
+        this.submitted = true;
+        console.log(this.submitted);
+    }
+
+    newCondition() {
+        console.log(this.model);
+        return this.http.post<Condition>(this.conditionUrl, this.model, this.httpOptions)
+            .subscribe(
+                (val) => console.log(val),
+                error => console.log(error),
+                () => console.log("Complete")
+                )
+    }
+
+    handleError() {
+        console.log("Error in submission")
+    }
 
 }

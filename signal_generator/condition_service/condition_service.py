@@ -1,12 +1,14 @@
 from flask import Flask
 from flask import request
+from flask_cors import cross_origin
 import yaml
 import mysql.connector
 import requests
 
 app = Flask(__name__)
 
-@app.route('/condition/add', methods=['POST'])
+@app.route('/condition/add', methods=['POST', 'OPTIONS'])
+@cross_origin(origin='localhost')
 def user_add():
     with open("../config/database_connection_details.yaml", 'r') as yaml_file:
         cfg = yaml.load(yaml_file, Loader=yaml.FullLoader)
