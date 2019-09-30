@@ -1,0 +1,6 @@
+#container {
+    width: 130px;
+    height: 60px;
+    display: table;
+    background-color: #ccc;         
+}
