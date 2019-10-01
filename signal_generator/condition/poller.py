@@ -23,9 +23,11 @@ def detect_change(data, mycursor):
         data[i] = item
         print(dat)
         print(condition.evaluate(dat))
+
+        # Only notify if true and it previously was not true, to avoid constant notifications
         if condition.evaluate(dat) and last_value != is_condition_true:
-            print('Notifying user: {}'.format(user.username))
             user = fetch_user(item.user_id, mycursor)
+            print('Notifying user: {}'.format(user.username))
             text = "{}%20your%20notification%20for%20{}:%20{}".format(user.username, item.symbol, item.condition_text)
             if item.notification_method == NOTIFICATION_METHOD.SMS:
                 query_string = 'http://127.0.0.1:5003/notify/text?message={}&number=test_num'.format(text)
