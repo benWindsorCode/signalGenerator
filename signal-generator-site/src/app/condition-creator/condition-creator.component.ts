@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./condition-creator.component.css']
 })
 export class ConditionCreatorComponent implements OnInit {
-    notification_methods = ['SMS', 'email', 'SMS+email']
+    notification_methods = ['SMS', 'EMAIL', 'BOTH']
 
     httpOptions = {
         headers: new HttpHeaders({
