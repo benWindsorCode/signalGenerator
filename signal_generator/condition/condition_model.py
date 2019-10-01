@@ -9,3 +9,4 @@ class Condition_model:
         self.notification_method = NOTIFICATION_METHOD[json[3]]
         self.symbol = json[4]
         self.last_value = bool(json[5])
+        self.is_active = bool(json[6])

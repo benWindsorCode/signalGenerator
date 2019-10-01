@@ -74,10 +74,11 @@ def run():
     mycursor.execute("SELECT * FROM sig_gen.condition")
     results = mycursor.fetchall()
     condition_data = convert_condition_to_object(results)
+    enabled_conditions = [ condition for condition in condition_data if condition.is_active == True ] 
 
     # todo: use a while True here instead
     for i in range(5):
-        condition_data = detect_change(condition_data, mycursor)
+        enabled_conditions = detect_change(enabled_conditions, mycursor)
         time.sleep(3)
         print("-------------------------------------------------------------\n\n")
 
