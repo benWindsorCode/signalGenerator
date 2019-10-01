@@ -13,12 +13,18 @@ def detect_change(data, mycursor):
     for i in range(len(data)):
         item = data[i]
         print(item.condition_text)
+        print("last_value: {}".format(item.last_value))
         condition = Condition(item.condition_text)
         query_string = 'http://127.0.0.1:5010/marketdata/{}'.format(item.symbol)
         dat = requests.get(url = query_string).json()
+        is_condition_true = condition.evaluate(dat)
+        last_value = item.last_value
+        item.last_value = is_condition_true
+        data[i] = item
         print(dat)
         print(condition.evaluate(dat))
-        if condition.evaluate(dat):
+        if condition.evaluate(dat) and last_value != is_condition_true:
+            print('Notifying user: {}'.format(user.username))
             user = fetch_user(item.user_id, mycursor)
             text = "{}%20your%20notification%20for%20{}:%20{}".format(user.username, item.symbol, item.condition_text)
             if item.notification_method == NOTIFICATION_METHOD.SMS:
@@ -32,9 +38,7 @@ def detect_change(data, mycursor):
                 requests.post(url = query_string)
                 query_string = 'http://127.0.0.1:5003/notify/email?message={}&email=test_address'.format(text)
                 requests.post(url = query_string)
-        elif condition.evaluate(dat) == False:
-            item.last_value = False
-            data[i] = item
+    return data
 
 def convert_condition_to_object(results):
     condition_dicts = []
@@ -63,13 +67,16 @@ def run():
     )
     mycursor = mydb.cursor()
     
+
+    # Find way to pull in new conditions without overriding the changed ones
+    mycursor.execute("SELECT * FROM sig_gen.condition")
+    results = mycursor.fetchall()
+    condition_data = convert_condition_to_object(results)
+
     # todo: use a while True here instead
-    for i in range(2):
-        mycursor.execute("SELECT * FROM sig_gen.condition")
-        results = mycursor.fetchall()
-        condition_data = convert_condition_to_object(results)
-        detect_change(condition_data, mycursor)
-        time.sleep(5)
+    for i in range(5):
+        condition_data = detect_change(condition_data, mycursor)
+        time.sleep(3)
         print("-------------------------------------------------------------\n\n")
 
     mydb.disconnect()

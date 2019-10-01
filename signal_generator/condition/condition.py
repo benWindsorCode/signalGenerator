@@ -6,7 +6,6 @@ class Condition:
     def __init__(self, condition_text: str):
         self.data = condition_text
         self.separators = self.find_all_separators()
-        print(self.separators)
         self.expressions = self.extract_expressions(self.separators, self.data)
 
     def load_condition_from_file(self, file_path: str) -> str:
@@ -21,6 +20,8 @@ class Condition:
         if len(separator_tokens) == 0:
             return eval(evaluated_expressions[0])
         combined_list = [None]*(len(evaluated_expressions) + len(separator_tokens))
+
+        # Depending on if the condition starts with a separator or not, interleave the two lists in alternating manner
         if self.separators[0].start() == 0:
             combined_list[::2] = separator_tokens
             combined_list[1::2] = evaluated_expressions
