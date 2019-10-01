@@ -1,5 +1,6 @@
 from flask import Flask
 from flask import request
+from flask import jsonify
 from flask_cors import cross_origin
 import yaml
 import mysql.connector
@@ -17,6 +18,17 @@ def getDb():
         passwd=cfg['mysql']['passwd'],
         database=cfg['mysql']['database']
     )
+
+def get_conditions_from_results(results):
+    conditions = []
+    for result in results:
+        dict_result = { 'idcondition':result[0], 'user_id':result[1], 'condition_text':result[2], 'notification_method':result[3], 'symbol':result[4], 'last_value':result[5] }
+        conditions.append(dict_result)
+
+    if len(conditions) == 1:
+        return conditions[0]
+    else:
+        return conditions
 
 @app.route('/condition/add', methods=['POST', 'OPTIONS'])
 @cross_origin(origin='localhost')
@@ -38,8 +50,17 @@ def condition_add():
 def condition_get(idcondition):
     mydb = getDb()
     mycursor = mydb.cursor()
-    mycurson.execute('SELECT * FROM sig_gen.condition WHERE idcondition = {}'.format(idcondition))
+    mycursor.execute('SELECT * FROM sig_gen.condition WHERE idcondition = {}'.format(idcondition))
     result = mycursor.fetchone()
     mydb.disconnect()
-    return result
+    return jsonify(get_conditions_from_results([result]))
+
+@app.route('/condition/user/<user_id>', methods=['GET'])
+def condition_by_user_get(user_id):
+    mydb = getDb()
+    mycursor = mydb.cursor()
+    mycursor.execute('SELECT * FROM sig_gen.condition WHERE user_id = {}'.format(user_id))
+    result = mycursor.fetchall()
+    mydb.disconnect()
+    return jsonify(get_conditions_from_results(result))
 
