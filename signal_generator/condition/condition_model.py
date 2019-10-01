@@ -1,7 +1,7 @@
 from notification_method import NOTIFICATION_METHOD 
 
-
-class Conditionmodel:
+# To be used to convert database query objects into python objects
+class Condition_model:
     def __init__(self, json):
         self.idcondition = json[0]
         self.user_id = json[1]

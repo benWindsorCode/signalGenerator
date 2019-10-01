@@ -6,6 +6,7 @@ class Condition:
     def __init__(self, condition_text: str):
         self.data = condition_text
         self.separators = self.find_all_separators()
+        print(self.separators)
         self.expressions = self.extract_expressions(self.separators, self.data)
 
     def load_condition_from_file(self, file_path: str) -> str:
@@ -47,7 +48,7 @@ class Condition:
 
         # check if one more expression left after final separator
         if current_pos < len(self.data):
-            expressions.append(Expression(self.data[current_pos: len(self.data)-1]))
+            expressions.append(Expression(self.data[current_pos: len(self.data)]))
             
         return expressions
         
