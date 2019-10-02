@@ -1,5 +1,7 @@
 # Signal Generator
 A custom signal generation program.
+# Dependancies 
+If using a venv create your venv, run 'source venv/bin/activate', install the packages in requirements.txt, run 'deactivate' when ready to leave the venv.
 # To Run
 Place your mysql database connection details in a file called database\_connection\_details.yaml in the config folder
 Place your test AWS SNS API key in a file caled test\_topic\_details.txt in the src/notification folder.
