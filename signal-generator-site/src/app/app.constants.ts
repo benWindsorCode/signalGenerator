@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 
-@Injectable()
+@Injectable({
+    providedIn:'root'
+})
 export class Configuration {
     public base = 'http://127.0.0.1'
-    public marketdata_endpoint = ':5010/marketdata'
-    public marketdata_url = this.base + this.marketdata_endpoint
-    public condition_endpoint = ':6001/condition'
-    public condition_url = this.base + this.condition_endpoint
+    public marketdataEndpoint = ':5010/marketdata'
+    public marketdataUrl = this.base + this.marketdataEndpoint
+    public conditionEndpoint = ':6001/condition'
+    public conditionUrl = this.base + this.conditionEndpoint
 }
