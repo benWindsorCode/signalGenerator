@@ -8,11 +8,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ConditionCreatorComponent } from './condition-creator/condition-creator.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ConditionByUserComponent } from './condition-by-user/condition-by-user.component';
+import { ConditionItemComponent } from './condition-item/condition-item.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ConditionCreatorComponent
+    ConditionCreatorComponent,
+    ConditionByUserComponent,
+    ConditionItemComponent
   ],
   imports: [
     BrowserModule,

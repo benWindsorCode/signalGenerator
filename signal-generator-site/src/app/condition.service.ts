@@ -11,10 +11,12 @@ export class ConditionService {
 
     private conditionServiceUrl: string;
     private addConditionUrl: string;
+    private getConditionByUserUrl: string;
 
     constructor(private http: HttpClient, private configuration: Configuration) { 
         this.conditionServiceUrl = configuration.conditionUrl;
         this.addConditionUrl = this.conditionServiceUrl + '/add';
+        this.getConditionByUserUrl = this.conditionServiceUrl + '/user/'
     }
 
     public addCondition(newCondition : Condition): Observable<Condition> {
@@ -22,5 +24,8 @@ export class ConditionService {
         return this.http.post<Condition>(this.addConditionUrl, newCondition);
     }
 
+    public getConditionsByUser(user_id: int): Observable<Condition[]> {
+        return this.http.get<Condition[]>(this.getConditionByUserUrl + user_id);
+    }
 
 }
