@@ -77,9 +77,9 @@ def run():
     enabled_conditions = [ condition for condition in condition_data if condition.is_active == True ] 
 
     # todo: use a while True here instead
-    for i in range(5):
+    while True:
         enabled_conditions = detect_change(enabled_conditions, mycursor)
-        time.sleep(3)
+        time.sleep(60)
         print("-------------------------------------------------------------\n\n")
 
     mydb.disconnect()
