@@ -25,13 +25,10 @@ def get_conditions_from_results(results):
         dict_result = { 'idcondition':result[0], 'user_id':result[1], 'condition_text':result[2], 'notification_method':result[3], 'symbol':result[4], 'last_value':result[5] }
         conditions.append(dict_result)
 
-    if len(conditions) == 1:
-        return conditions[0]
-    else:
-        return conditions
+    return conditions
 
 @app.route('/condition/add', methods=['POST', 'OPTIONS'])
-@cross_origin(origin='localhost')
+@cross_origin(origin='*')
 def condition_add():
     mydb = getDb()
     mycursor = mydb.cursor()
@@ -47,17 +44,17 @@ def condition_add():
     return 'COMPETE'
 
 @app.route('/condition/<idcondition>', methods=['GET'])
-@cross_origin(origin='localhost')
+@cross_origin(origin='*')
 def condition_get(idcondition):
     mydb = getDb()
     mycursor = mydb.cursor()
     mycursor.execute('SELECT * FROM sig_gen.condition WHERE idcondition = {}'.format(idcondition))
     result = mycursor.fetchone()
     mydb.disconnect()
-    return jsonify(get_conditions_from_results([result]))
+    return jsonify(get_conditions_from_results([result])[0])
 
 @app.route('/condition/user/<user_id>', methods=['GET'])
-@cross_origin(origin='localhost')
+@cross_origin(origin='*')
 def condition_by_user_get(user_id):
     mydb = getDb()
     mycursor = mydb.cursor()
