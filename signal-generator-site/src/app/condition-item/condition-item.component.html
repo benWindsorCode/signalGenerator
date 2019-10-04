@@ -1,3 +1,9 @@
-<div>
-    {{inputCondition.condition_text}}
-</div>
+<mat-card>
+    <mat-card-title>
+        Condition on {{inputCondition.symbol}}
+    </mat-card-title>
+    <mat-card-content>
+    <b>Condition: </b>{{inputCondition.condition_text}},
+    <b>Notify by: </b>{{inputCondition.notification_method}}
+    </mat-card-content>
+</mat-card>
