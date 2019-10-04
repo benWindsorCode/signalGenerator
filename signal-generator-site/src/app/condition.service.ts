@@ -24,7 +24,7 @@ export class ConditionService {
         return this.http.post<Condition>(this.addConditionUrl, newCondition);
     }
 
-    public getConditionsByUser(user_id: int): Observable<Condition[]> {
+    public getConditionsByUser(user_id: number): Observable<Condition[]> {
         return this.http.get<Condition[]>(this.getConditionByUserUrl + user_id);
     }
 

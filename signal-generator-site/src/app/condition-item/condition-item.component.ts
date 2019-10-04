@@ -7,7 +7,7 @@ import { Condition } from '../condition';
   styleUrls: ['./condition-item.component.css']
 })
 export class ConditionItemComponent implements OnInit {
-    @Input inputCondition: Condition;
+    @Input() inputCondition: Condition;
 
     constructor() { }
 
