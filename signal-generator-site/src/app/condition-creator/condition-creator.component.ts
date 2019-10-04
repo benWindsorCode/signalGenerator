@@ -41,7 +41,7 @@ export class ConditionCreatorComponent implements OnInit {
                 (val) => console.log(val),
                 error => console.log(error),
                 () => console.log("Complete")
-                )
+                );
     }
 
     handleError() {

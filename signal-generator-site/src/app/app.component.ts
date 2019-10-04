@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ConditionCreatorComponent } from './condition-creator/condition-creator.component';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-root',

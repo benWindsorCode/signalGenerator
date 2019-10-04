@@ -14,6 +14,12 @@ export class ConditionByUserComponent implements OnInit {
     constructor(private conditionService: ConditionService) { }
 
     ngOnInit() {
+        this.conditionService.getConditionsByUser(this.userId)
+            .subscribe(
+                val => this.conditionsForUser = val,
+                error => console.log("Error"),
+                () => console.log("Complete")
+            );
     }
 
 }
