@@ -9,7 +9,7 @@ import requests
 app = Flask(__name__)
 
 def getDb():
-    with open("../config/database_connection_details.yaml", 'r') as yaml_file:
+    with open("database_connection_details.yaml", 'r') as yaml_file:
         cfg = yaml.load(yaml_file, Loader=yaml.FullLoader)
         
     return mysql.connector.connect(
@@ -63,3 +63,5 @@ def condition_by_user_get(user_id):
     mydb.disconnect()
     return jsonify(get_conditions_from_results(result))
 
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=5000)
