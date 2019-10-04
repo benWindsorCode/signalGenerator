@@ -47,6 +47,7 @@ def condition_add():
     return 'COMPETE'
 
 @app.route('/condition/<idcondition>', methods=['GET'])
+@cross_origin(origin='localhost')
 def condition_get(idcondition):
     mydb = getDb()
     mycursor = mydb.cursor()
@@ -56,6 +57,7 @@ def condition_get(idcondition):
     return jsonify(get_conditions_from_results([result]))
 
 @app.route('/condition/user/<user_id>', methods=['GET'])
+@cross_origin(origin='localhost')
 def condition_by_user_get(user_id):
     mydb = getDb()
     mycursor = mydb.cursor()
