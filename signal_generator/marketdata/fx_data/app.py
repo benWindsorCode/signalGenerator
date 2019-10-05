@@ -15,3 +15,6 @@ def show_ccy(symbol: str):
     # todo: implement check to ensure symbol is correct format
     split = symbol.split('-')
     return _get_ccy_data_json(split[0], split[1]) 
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=5000, debug=True)
