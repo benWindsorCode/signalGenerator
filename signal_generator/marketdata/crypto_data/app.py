@@ -4,7 +4,7 @@ import yaml
 
 
 app = Flask(__name__)
-with open('../../config/service_connection_details.yaml', 'r') as yaml_file:
+with open('crypto_data_service_connection_details.yaml', 'r') as yaml_file:
     cfg = yaml.load(yaml_file, Loader=yaml.FullLoader)
 
 API_token = cfg['cryptocompare']['API_key']
@@ -21,3 +21,6 @@ def show_stock(symbol: str):
     # todo: implement check to ensure symbol is correct format
     split = symbol.split('-')
     return _get_crypto_data_json(split[0], split[1]) 
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port='5001', debug=True)
