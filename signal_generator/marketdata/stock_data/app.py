@@ -22,3 +22,6 @@ def show_stock(ticker: str):
 def show_stock_property(ticker: str, property: str):
     data = _get_stock_data_json(ticker)
     return str(data[property])
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port='5000', debug=True)
