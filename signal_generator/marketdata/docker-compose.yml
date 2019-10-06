@@ -1,0 +1,33 @@
+version: "3.7"
+services:
+    stockdata:
+        image: benwindsorcode/stock_data_service_flask:latest
+        container_name: stock_data_service_flask
+        ports:
+            - 5000:5000
+        networks:
+            - host
+    cryptodata:
+        image: benwindsorcode/crypto_data_service_flask:latest
+        container_name: crypto_data_service_flask
+        ports:
+            - 5001:5001
+        networks:
+            - host
+    fxdata:
+        build: ./fx_data
+        container_name: fx_data_service_flask
+        ports:
+            - 5002:5002
+        networks: 
+            - host
+    proxy:
+        build: ./market_data_proxy
+        container_name: market_data_proxy_flask
+        ports:
+            - 5010:5010
+        networks: 
+            - host
+
+networks:
+    host:

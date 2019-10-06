@@ -4,7 +4,7 @@ import requests
 app = Flask(__name__)
 
 def _parse_stock(ticker):
-    query_string = 'http://127.0.0.1:5000/stock/{}'.format(ticker) 
+    query_string = 'http://host.docker.internal:5000/stock/{}'.format(ticker) 
     result = requests.get(url = query_string) 
     return result.json()
 
@@ -13,11 +13,11 @@ def _parse_currency(symbol):
     base = symbol.split('-')[0]
     secondary = symbol.split('-')[1]
     if base in cryptos:
-        query_string = 'http://127.0.0.1:5001/crypto/{}-{}'.format(base, secondary) 
+        query_string = 'http://host.docker.internal:5001/crypto/{}-{}'.format(base, secondary) 
         result = requests.get(url = query_string) 
         return result.json()
     else:
-        query_string = 'http://0.0.0.0:5002/ccy/{}-{}'.format(base, secondary) 
+        query_string = 'http://host.docker.internal:5002/ccy/{}-{}'.format(base, secondary) 
         result = requests.get(url = query_string) 
         return result.json()
 
