@@ -3,7 +3,7 @@ import requests
 import yaml
 
 app = Flask(__name__)
-with open('../../config/service_connection_details.yaml', 'r') as yaml_file:
+with open('stock_data_service_connection_details.yaml', 'r') as yaml_file:
     cfg = yaml.load(yaml_file, Loader=yaml.FullLoader)
 
 API_token = cfg['IEX']['API_key']
