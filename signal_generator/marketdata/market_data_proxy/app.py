@@ -17,7 +17,7 @@ def _parse_currency(symbol):
         result = requests.get(url = query_string) 
         return result.json()
     else:
-        query_string = 'http://127.0.0.1:5002/ccy/{}-{}'.format(base, secondary) 
+        query_string = 'http://0.0.0.0:5002/ccy/{}-{}'.format(base, secondary) 
         result = requests.get(url = query_string) 
         return result.json()
 
@@ -28,3 +28,6 @@ def show_stock(symbol: str):
         return _parse_currency(symbol)
     else:
         return _parse_stock(symbol)
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5010, debug=True)
