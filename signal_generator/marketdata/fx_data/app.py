@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import cross_origin
 import requests
 
 app = Flask(__name__)
@@ -10,6 +11,7 @@ def _get_ccy_data_json(base, secondary):
     return data
 
 @app.route('/ccy/<symbol>')
+@cross_origin(origin='*')
 def show_ccy(symbol: str):
     print("Fetching data for {}".format(symbol))
     # todo: implement check to ensure symbol is correct format
@@ -17,4 +19,4 @@ def show_ccy(symbol: str):
     return _get_ccy_data_json(split[0], split[1]) 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5002, debug=True)
