@@ -5,4 +5,5 @@ export class Condition {
     notification_method: string;
     symbol: string;
     last_value?: boolean;
+    condition_name: string;
 }
