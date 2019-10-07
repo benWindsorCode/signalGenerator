@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 @app.route('/user/add', methods=['POST'])
 def user_add():
-    with open("../config/database_connection_details.yaml", 'r') as yaml_file:
+    with open('database_connection_details.yaml', 'r') as yaml_file:
         cfg = yaml.load(yaml_file, Loader=yaml.FullLoader)
         
     mydb = mysql.connector.connect(
@@ -29,3 +29,6 @@ def user_add():
     mydb.commit()
     mydb.disconnect()
     return 'COMPETE'
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=6000, debug=True)

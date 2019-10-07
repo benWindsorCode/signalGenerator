@@ -30,7 +30,7 @@ flask run --port 5010
 Run the following commands from the notification service folder and run:
 export FLASK\_ENV=development
 export FLASK\_APP=notification\_service.py
-flask run --port 5003
+flask run --port 6001
 
 Run the following commands from the user service folder and run:
 export FLASK\_ENV=development
