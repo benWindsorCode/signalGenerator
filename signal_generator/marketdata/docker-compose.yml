@@ -15,7 +15,7 @@ services:
         networks:
             - host
     fxdata:
-        build: ./fx_data
+        image: benwindsorcode/fx_data_service_flask:latest
         container_name: fx_data_service_flask
         ports:
             - 5002:5002
