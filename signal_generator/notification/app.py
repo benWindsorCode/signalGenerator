@@ -4,7 +4,7 @@ from flask import request
 import requests
 
 app = Flask(__name__)
-sns = boto3.client('sns')
+sns = boto3.client('sns', region_name='eu-west-1')
 f = open("test_topic_details.txt", 'r')
 test_topic = f.read()[:-1]
 f.close()
@@ -44,4 +44,7 @@ def notify_user_email():
     )
     email = request.args.get('email')
     return "Sending msg: {}, to email: {}".format(message, email)
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=5100, debug=True)
     

@@ -8,6 +8,9 @@ from notification_method import NOTIFICATION_METHOD
 from condition_model import Condition_model
 from user_model import User_model
 
+marketdata_host = '127.0.0.1'
+notification_service_host = '127.0.0.1'
+notification_service_port = '5100'
 
 def detect_change(data, mycursor):
     for i in range(len(data)):
@@ -15,7 +18,7 @@ def detect_change(data, mycursor):
         print(item.condition_text)
         print("last_value: {}".format(item.last_value))
         condition = Condition(item.condition_text)
-        query_string = 'http://127.0.0.1:5010/marketdata/{}'.format(item.symbol)
+        query_string = 'http://{}:5010/marketdata/{}'.format(marketdata_host, item.symbol)
         dat = requests.get(url = query_string).json()
         is_condition_true = condition.evaluate(dat)
         last_value = item.last_value
@@ -30,15 +33,15 @@ def detect_change(data, mycursor):
             print('Notifying user: {}'.format(user.username))
             text = "{}%20your%20notification%20for%20{}:%20{}".format(user.username, item.symbol, item.condition_text)
             if item.notification_method == NOTIFICATION_METHOD.SMS:
-                query_string = 'http://127.0.0.1:5003/notify/text?message={}&number=test_num'.format(text)
+                query_string = 'http://{}:{}/notify/text?message={}&number=test_num'.format(notification_service_host, notification_service_port, text)
                 requests.post(url = query_string)
             elif item.notification_method == NOTIFICATION_METHOD.EMAIL:
-                query_string = 'http://127.0.0.1:5003/notify/email?message={}&email=test_address'.format(text)
+                query_string = 'http://{}:{}/notify/email?message={}&email=test_address'.format(notification_service_host, notification_service_port, text)
                 requests.post(url = query_string)
             elif item.notification_method == NOTIFICATION_METHOD.BOTH:
-                query_string = 'http://127.0.0.1:5003/notify/text?message={}&number=test_num'.format(text)
+                query_string = 'http://{}:{}/notify/text?message={}&number=test_num'.format(notification_service_host, notification_service_port, text)
                 requests.post(url = query_string)
-                query_string = 'http://127.0.0.1:5003/notify/email?message={}&email=test_address'.format(text)
+                query_string = 'http://{}:{}/notify/email?message={}&email=test_address'.format(notification_service_host, notification_service_port, text)
                 requests.post(url = query_string)
     return data
 
