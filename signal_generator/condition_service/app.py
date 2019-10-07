@@ -22,7 +22,16 @@ def getDb():
 def get_conditions_from_results(results):
     conditions = []
     for result in results:
-        dict_result = { 'idcondition':result[0], 'user_id':result[1], 'condition_text':result[2], 'notification_method':result[3], 'symbol':result[4], 'last_value':result[5] }
+        dict_result = { 
+                'idcondition':result[0], 
+                'user_id':result[1], 
+                'condition_text':result[2], 
+                'notification_method':result[3], 
+                'symbol':result[4], 
+                'last_value':result[5], 
+                'is_active':result[6],
+                'condition_name':result[7]
+        }
         conditions.append(dict_result)
 
     return conditions
@@ -64,4 +73,4 @@ def condition_by_user_get(user_id):
     return jsonify(get_conditions_from_results(result))
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=6001, debug=True)
