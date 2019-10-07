@@ -10,3 +10,4 @@ class Condition_model:
         self.symbol = json[4]
         self.last_value = bool(json[5])
         self.is_active = bool(json[6])
+        self.condition_name = json[7]
