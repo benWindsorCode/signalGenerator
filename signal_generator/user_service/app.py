@@ -23,7 +23,6 @@ def user_add():
 
     sql = "INSERT INTO sig_gen.user (username, sms_number, email) VALUES (%s, %s, %s)"
     vals = (data['username'], data['sms_number'], data['email'])
-    print(data)
 
     mycursor.execute(sql, vals)
     mydb.commit()
