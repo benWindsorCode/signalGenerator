@@ -45,6 +45,10 @@ def notify_user_email():
     email = request.args.get('email')
     return "Sending msg: {}, to email: {}".format(message, email)
 
+@app.route('/notify/health')
+def health():
+    return 'Im Alive'
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5100, debug=True)
     
