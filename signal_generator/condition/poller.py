@@ -8,17 +8,22 @@ from notification_method import NOTIFICATION_METHOD
 from condition_model import Condition_model
 from user_model import User_model
 
-marketdata_host = '127.0.0.1'
+# marketdata_host = '127.0.0.1'
+marketdata_host = 'sig-gen-api-balancer-1085349112.eu-west-1.elb.amazonaws.com'
 notification_service_host = '127.0.0.1'
 notification_service_port = '5100'
+with open("../config/database_connection_details.yaml", 'r') as yaml_file:
+    cfg = yaml.load(yaml_file, Loader=yaml.FullLoader)
 
-def detect_change(data, mycursor):
+def detect_change(data):
+    mydb = connect_to_db()
+    mycursor = mydb.cursor()
     for i in range(len(data)):
         item = data[i]
         print(item.condition_text)
         print("last_value: {}".format(item.last_value))
         condition = Condition(item.condition_text)
-        query_string = 'http://{}:5010/marketdata/{}'.format(marketdata_host, item.symbol)
+        query_string = 'http://{}/marketdata/{}'.format(marketdata_host, item.symbol)
         dat = requests.get(url = query_string).json()
         is_condition_true = condition.evaluate(dat)
         last_value = item.last_value
@@ -43,6 +48,7 @@ def detect_change(data, mycursor):
                 requests.post(url = query_string)
                 query_string = 'http://{}:{}/notify/email?message={}&email=test_address'.format(notification_service_host, notification_service_port, text)
                 requests.post(url = query_string)
+    mydb.disconnect()
     return data
 
 def convert_condition_to_object(results):
@@ -60,32 +66,33 @@ def fetch_user(iduser, mycursor):
     result = mycursor.fetchone()
     return convert_user_to_object(result)
 
-def run():
-    with open("../config/database_connection_details.yaml", 'r') as yaml_file:
-        cfg = yaml.load(yaml_file, Loader=yaml.FullLoader)
-        
+def connect_to_db():
     mydb = mysql.connector.connect(
         host=cfg['mysql']['host'],
         user=cfg['mysql']['user'],
         passwd=cfg['mysql']['passwd'],
         database=cfg['mysql']['database']
     )
-    mycursor = mydb.cursor()
-    
+    return mydb
+
+def run():
+        
+    mydb = connect_to_db()
+    mycursor = mydb.cursor() 
 
     # Find way to pull in new conditions without overriding the changed ones
     mycursor.execute("SELECT * FROM sig_gen.condition")
     results = mycursor.fetchall()
+    mydb.disconnect()
     condition_data = convert_condition_to_object(results)
     enabled_conditions = [ condition for condition in condition_data if condition.is_active == True ] 
 
     # todo: use a while True here instead
     while True:
-        enabled_conditions = detect_change(enabled_conditions, mycursor)
+        enabled_conditions = detect_change(enabled_conditions)
         time.sleep(60)
         print("-------------------------------------------------------------\n\n")
 
-    mydb.disconnect()
 
 if __name__ == "__main__":
     run()
