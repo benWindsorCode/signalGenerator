@@ -1,5 +1,6 @@
 from flask import Flask
 import requests
+import json
 
 app = Flask(__name__)
 hostname ="127.0.0.1"  # use 'host.docker.internal' if testing the containers locally
@@ -23,12 +24,22 @@ def _parse_currency(symbol):
         return result.json()
 
 @app.route('/marketdata/<symbol>')
-def show_stock(symbol: str):
+def fetch_data(symbol: str):
     print("Fetching data for {}".format(symbol))
     if symbol.find('-') != -1:
         return _parse_currency(symbol)
     else:
         return _parse_stock(symbol)
+
+@app.route('/marketdata/<symbol>/properties')
+def show_properties(symbol: str):
+    print("Fetching properties for {}".format(symbol))
+    data = fetch_data(symbol)
+    return json.dumps(list(data.keys()))
+
+@app.route('/marketdata/health')
+def return_health():
+    return "I'm up"
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5010, debug=True)
