@@ -6,17 +6,23 @@ import requests
 app = Flask(__name__)
 sns = boto3.client('sns', region_name='eu-west-1')
 
-@app.route('/subscription/topic/create', methods=['POST'])
+@app.route('/subscription/topic/add', methods=['POST'])
 def create_topic():
     data = request.get_json()
     response = sns.create_topic(
-            Name='{}_{}'.format(username, iduser)
+            Name='{}_{}'.format(data['username'], data['iduser'])
     )
-    print(response)
-    return "Created"
+
+    reply = {}
+    reply['HTTPStatusCode'] = response['ResponseMetadata']['HTTPStatusCode']
+    if reply['HTTPStatusCode'] == 200:
+        reply['TopicArn'] = response['TopicArn']
+
+    return reply
 
 @app.route('/subscription/add', methods=['POST'])
 def add_subscription():
+    return ""
 
 @app.route('/notify/health')
 def health():
