@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import cross_origin
 import requests
 import json
 
@@ -32,6 +33,7 @@ def fetch_data(symbol: str):
         return _parse_stock(symbol)
 
 @app.route('/marketdata/<symbol>/properties')
+@cross_origin(origin='*')
 def show_properties(symbol: str):
     print("Fetching properties for {}".format(symbol))
     data = fetch_data(symbol)

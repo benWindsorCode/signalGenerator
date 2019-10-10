@@ -1,3 +1,4 @@
 flask
+flask_cors
 PyYAML==5.1.2
 requests==2.22.0
