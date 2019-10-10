@@ -3,6 +3,7 @@ import { Condition } from '../condition';
 import { HttpHeaders } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
 import { ConditionService } from '../condition.service';
+import { MarketdataService } from '../marketdata.service';
 
 @Component({
   selector: 'app-condition-creator',
@@ -20,12 +21,15 @@ export class ConditionCreatorComponent implements OnInit {
 
     model = new Condition();
     submitted = false;
-    conditionUrl = "http://127.0.0.1:6001/condition/add";
+    properties;
 
-    constructor(private http: HttpClient, private conditionService: ConditionService) { }
+    constructor(private http: HttpClient, 
+        private conditionService: ConditionService,
+        private marketdataService: MarketdataService) { 
+        this.properties = ["Click 'See Properties' to load available properties"]
+    }
 
     ngOnInit() {
-
     }
 
     onSubmit() {
@@ -35,13 +39,22 @@ export class ConditionCreatorComponent implements OnInit {
 
     newCondition() {
         console.log(this.model);
-        //return this.http.post<Condition>(this.conditionUrl, this.model, this.httpOptions)
         return this.conditionService.addCondition(this.model)
             .subscribe(
                 (val) => console.log(val),
                 error => console.log(error),
                 () => console.log("Complete")
                 );
+    }
+
+    getProperties() {
+        this.marketdataService.getPropertiesBySymbol(this.model.symbol)
+            .subscribe(
+                (val) => this.properties=val,
+                error => this.properties=["Failed to fetch properties for: "+this.model.symbol],
+                () => console.log('Marketdata fetched for'+this.model.symbol)
+            );
+
     }
 
     handleError() {
