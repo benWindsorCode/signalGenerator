@@ -1,6 +1,6 @@
 /* Gives nice forms if you use correct div names */
 @import url('https://unpkg.com/bootstrap@3.3.7/dist/css/bootstrap.min.css');
-@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
 /* You can add global styles to this file, and also import other style files */
 /* Application-wide Styles */
 h1 {
@@ -31,6 +31,6 @@ body, input[type="text"], button {
 
 
 /* the below is enabled by materials, disabling for now
+ */
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; } 
- */

@@ -1,7 +1,17 @@
-<h1>{{title}}</h1>
-<div class="container">
-<mat-tab-group>
-    <mat-tab label="New Condition"> <app-condition-creator></app-condition-creator> </mat-tab>
-    <mat-tab label="Your Conditions"> <app-condition-by-user [userId]=1></app-condition-by-user> </mat-tab>
-</mat-tab-group>
-</div>
+<mat-toolbar color="primary">
+    <mat-toolbar-row>
+        <span>Signal Generator</span>
+        <span class="example-spacer"></span>
+        <span>home</span>
+    </mat-toolbar-row>
+</mat-toolbar>
+<mat-sidenav-container>
+    <mat-sidenav-content>
+    <div class="container">
+        <mat-tab-group>
+            <mat-tab label="New Condition"> <app-condition-creator></app-condition-creator> </mat-tab>
+            <mat-tab label="Your Conditions"> <app-condition-by-user [userId]=1></app-condition-by-user> </mat-tab>
+        </mat-tab-group>
+    </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>
