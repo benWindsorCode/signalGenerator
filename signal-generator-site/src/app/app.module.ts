@@ -13,13 +13,17 @@ import { ConditionCreatorComponent } from './condition-creator/condition-creator
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ConditionByUserComponent } from './condition-by-user/condition-by-user.component';
 import { ConditionItemComponent } from './condition-item/condition-item.component';
+import { TabbedContainerComponent } from './tabbed-container/tabbed-container.component';
+import { UserLoginComponent } from './user-login/user-login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ConditionCreatorComponent,
     ConditionByUserComponent,
-    ConditionItemComponent
+    ConditionItemComponent,
+    TabbedContainerComponent,
+    UserLoginComponent
   ],
   imports: [
     BrowserModule,
