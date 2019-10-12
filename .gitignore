@@ -107,6 +107,7 @@ venv.bak/
 *_connection_details.txt
 *_connection_details.yaml
 *_topic_details.txt
+*.secrets.ts
 
 # no swp files
 *.swp
