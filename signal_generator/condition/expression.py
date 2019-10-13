@@ -23,6 +23,8 @@ class Expression:
             expression_type = EXPRESSION_TYPE.GEQ
         elif expression_type == '==':
             expression_type = EXPRESSION_TYPE.EQ
+        else: 
+            raise Exception("Expression type {} not recognised".format(expression_type))
         return value_1, expression_type, value_2
 
     def evaluate(self, data):
@@ -37,10 +39,12 @@ class Expression:
             return converted_value_1 <= converted_value_2
         elif self.expression_type == EXPRESSION_TYPE.GEQ:
             return converted_value_1 >= converted_value_2
-        elif self.expression_type == EXPRESSION_TYPE.ET:
+        elif self.expression_type == EXPRESSION_TYPE.EQ:
             return converted_value_1 == converted_value_2
+        else:
+            raise Exception("Expression type {} not supported".format(expression_type))
 
-    def _get_value_or_convert_float(self, value, data):
+    def _get_value_or_convert_float(self, value, data)
         if self._is_float(value):
             return float(value)
         else:

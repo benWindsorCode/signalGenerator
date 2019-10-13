@@ -11,3 +11,6 @@ class Condition_model:
         self.last_value = bool(json[5])
         self.is_active = bool(json[6])
         self.condition_name = json[7]
+
+    def __eq__(self, other):
+        return self.idcondition == other.idcondition and self.user_id == other.user_id and self.condition_text == other.condition_text and self.notification_method = other.notification_method and self.symbol == other.symbol and self.last_value == other.last_value and self.is_active == other.is_active and self.condition_name == other.condition_name

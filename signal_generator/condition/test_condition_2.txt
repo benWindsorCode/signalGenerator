@@ -1,1 +1,0 @@
-( latestPrice > 400 and finalTotal <= 350 ) or ( x > 10 and y < 30 )

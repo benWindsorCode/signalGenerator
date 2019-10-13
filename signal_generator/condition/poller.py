@@ -75,11 +75,37 @@ def connect_to_db():
     )
     return mydb
 
+# todo: implement this function
+def update_conditions():
+    pass
+
+# todo: use this when I have refactored current_conditions to be a map in this file
+# todo: how do we deal with if user has changed other values, we should only be using is_active really to change here
+def pull_and_merge_conditions(current_conditions):
+    mydb = connect_to_db()
+    mycursor = mydb.cursor()
+    mycursor.execute("SELECT * FROM sig_gen.condition")
+    results = mycursor.fetchall()
+    mydb.disconnect()
+    merged_conditions = current_conditions
+    all_conditions = convert_user_to_object(results)
+    current_condition_ids = [ condition.idcondition for condition in current_conditions ]
+    # If condition not there then add, if there only add if different
+    for condition in all_conditions:
+        if condition.idcondition not in current_condition_ids:
+            merged_conditions.append(condition)
+        else:
+            if condition != current_conditions[condition.idcondition]:
+                current_conditions[condition.idcondition] = condition
+
+    return merged_conditions
+
 def run():
         
     mydb = connect_to_db()
     mycursor = mydb.cursor() 
 
+    # todo: use condition service here instead of pulling straight from db
     # Find way to pull in new conditions without overriding the changed ones
     mycursor.execute("SELECT * FROM sig_gen.condition")
     results = mycursor.fetchall()
