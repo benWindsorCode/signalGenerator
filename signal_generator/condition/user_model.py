@@ -5,3 +5,6 @@ class User_model:
         self.username = json[1]
         self.sms_number = json[2]
         self.email = json[3]
+
+    def __eq__(self, other: User_model) -> bool:
+        return self.iduer == other.iduser and self.username == other.username and self.sms_number == other.sms_number and self.email == other.email
