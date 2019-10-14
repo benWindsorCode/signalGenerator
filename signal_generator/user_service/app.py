@@ -18,7 +18,7 @@ def user_add():
         database=cfg['mysql']['database']
     )
 
-    mycursor = mydb.cursor()
+    mycursor = mydb.cursor(prepared=True)
     data = request.get_json()
 
     sql = "INSERT INTO sig_gen.user (username, sms_number, email) VALUES (%s, %s, %s)"
