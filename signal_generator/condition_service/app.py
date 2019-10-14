@@ -40,7 +40,7 @@ def get_conditions_from_results(results):
 @cross_origin(origin='*')
 def condition_add():
     mydb = getDb()
-    mycursor = mydb.cursor()
+    mycursor = mydb.cursor(prepared=True)
     data = request.get_json()
 
     sql = "INSERT INTO sig_gen.condition (user_id, condition_text, notification_method, symbol) VALUES (%s, %s, %s, %s)"
@@ -56,7 +56,7 @@ def condition_add():
 @cross_origin(origin='*')
 def condition_get(idcondition):
     mydb = getDb()
-    mycursor = mydb.cursor()
+    mycursor = mydb.cursor(prepared=True)
     mycursor.execute('SELECT * FROM sig_gen.condition WHERE idcondition = {}'.format(idcondition))
     result = mycursor.fetchone()
     mydb.disconnect()
@@ -66,7 +66,7 @@ def condition_get(idcondition):
 @cross_origin(origin='*')
 def condition_by_user_get(user_id):
     mydb = getDb()
-    mycursor = mydb.cursor()
+    mycursor = mydb.cursor(prepared=True)
     mycursor.execute('SELECT * FROM sig_gen.condition WHERE user_id = {}'.format(user_id))
     result = mycursor.fetchall()
     mydb.disconnect()
