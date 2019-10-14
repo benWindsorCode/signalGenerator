@@ -17,7 +17,7 @@ with open("../config/database_connection_details.yaml", 'r') as yaml_file:
 
 def detect_change(data):
     mydb = connect_to_db()
-    mycursor = mydb.cursor()
+    mycursor = mydb.cursor(prepared=True)
     for i in range(len(data)):
         item = data[i]
         print(item.condition_text)
@@ -83,7 +83,7 @@ def update_conditions():
 # todo: how do we deal with if user has changed other values, we should only be using is_active really to change here
 def pull_and_merge_conditions(current_conditions):
     mydb = connect_to_db()
-    mycursor = mydb.cursor()
+    mycursor = mydb.cursor(prepared=True)
     mycursor.execute("SELECT * FROM sig_gen.condition")
     results = mycursor.fetchall()
     mydb.disconnect()
@@ -103,7 +103,7 @@ def pull_and_merge_conditions(current_conditions):
 def run():
         
     mydb = connect_to_db()
-    mycursor = mydb.cursor() 
+    mycursor = mydb.cursor(prepared=True) 
 
     # todo: use condition service here instead of pulling straight from db
     # Find way to pull in new conditions without overriding the changed ones
