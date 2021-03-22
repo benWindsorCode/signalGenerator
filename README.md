@@ -1,5 +1,18 @@
 # Signal Generator
-A custom signal generation program.
+A custom signal generation program, designed to take conditions from users such as 'AAPL price > $500 or AAPL price < $300' and send a text or email (or both) to the user to alert them when this condition triggers. This allows users to create their own signals out of combinations of boolean statements which the framework will periodically evaluate using a market data service to allow access to various assets.
+# Code Structure
+The code is split into two main directories:
+- signal_generator = the python backend
+- signal-generator-site = the Angular backed frontend which is very rough/WIP
+
+The backend uses a containerised microservice architecture, with services as follows:
+- Market data service. In signal_generator/marketdata we have a proxy which points to various sources of market data. This proxy can also be pointed to mock market data sources
+- Condition service. In signal_generator/condition_service this service allows for addition of conditions to the backend storage
+- Notification service. In signal_generator/notification_service this service allows for the sending of notifications to users. Notifications are sent via AWS.
+- Subscription service. In signal_generator/subscription_service this service deals with adding new AWS subscriptions for users, setting up the phone number/email for a user (this is WIP)
+- User service. In signal_generator/user_service, this service adds users to the backend, it needs input sanitising and carefully cleaning before production use (this is WIP)
+
+Each service is designed to be span up in a containerised environment, locally I used docker compose. This is to allow for easy scaling of market data services for example, giving the option to flexibly expand per data source the amount of resources required.
 # Dependancies 
 If using a venv create your venv, run 'source venv/bin/activate', install the packages in requirements.txt, run 'deactivate' when ready to leave the venv.
 # To Run
